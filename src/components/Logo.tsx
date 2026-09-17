@@ -7,14 +7,14 @@ interface LogoProps {
 export function Logo({ size = "md", showSubtitle = true, className = "" }: LogoProps) {
   const iconDimensions = {
     sm: "h-8 w-8",
-    md: "h-10 w-10",
-    lg: "h-12 w-12",
+    md: "h-9 w-9 sm:h-10 sm:w-10",
+    lg: "h-11 w-11 sm:h-12 sm:w-12",
   }[size];
 
   const titleSize = {
     sm: "text-base",
-    md: "text-lg",
-    lg: "text-2xl",
+    md: "text-base sm:text-lg",
+    lg: "text-xl sm:text-2xl",
   }[size];
 
   const subtitleSize = {
@@ -24,7 +24,7 @@ export function Logo({ size = "md", showSubtitle = true, className = "" }: LogoP
   }[size];
 
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
+    <div className={`flex items-center gap-2.5 sm:gap-3 select-none ${className}`}>
       {/* Handcrafted Emblem Logo */}
       <div className={`relative flex ${iconDimensions} shrink-0 items-center justify-center`}>
         {/* Ambient Glow */}
@@ -41,7 +41,7 @@ export function Logo({ size = "md", showSubtitle = true, className = "" }: LogoP
               viewBox="0 0 36 36"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="relative h-6 w-6 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
+              className="relative h-5 w-5 sm:h-6 sm:w-6 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]"
             >
               <defs>
                 <linearGradient id="shieldGrad" x1="18" y1="3" x2="18" y2="33" gradientUnits="userSpaceOnUse">
@@ -97,7 +97,7 @@ export function Logo({ size = "md", showSubtitle = true, className = "" }: LogoP
 
       {/* Handcrafted Typography & Branding */}
       <div className="flex flex-col justify-center leading-none">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <span className={`${titleSize} font-extrabold tracking-tight text-slate-900`}>
             Safe
             <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600 bg-clip-text text-transparent">
@@ -105,13 +105,13 @@ export function Logo({ size = "md", showSubtitle = true, className = "" }: LogoP
             </span>
           </span>
 
-          <span className="inline-flex items-center rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-blue-700 uppercase border border-blue-200/70 shadow-[0_1px_2px_rgba(37,99,235,0.08)]">
-            PRO GPS
+          <span className="inline-flex items-center rounded-md bg-blue-50 px-1 py-0.5 text-[9px] sm:text-[10px] font-bold tracking-wider text-blue-700 uppercase border border-blue-200/70 shadow-[0_1px_2px_rgba(37,99,235,0.08)]">
+            PRO
           </span>
         </div>
 
         {showSubtitle && (
-          <span className={`${subtitleSize} mt-1 font-medium text-slate-500 tracking-wide`}>
+          <span className={`hidden sm:block ${subtitleSize} mt-1 font-medium text-slate-500 tracking-wide`}>
             GPS xavfsizlik monitoring tizimi
           </span>
         )}
