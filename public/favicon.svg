@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="favBg" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#1D4ED8" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <linearGradient id="favStroke" x1="32" y1="4" x2="32" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <linearGradient id="favCore" x1="32" y1="26" x2="32" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+  </defs>
+
+  <path
+    d="M32 6L12 14V28C12 40 20 51 32 58C44 51 52 40 52 28V14L32 6Z"
+    fill="url(#favBg)"
+    stroke="url(#favStroke)"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <circle
+    cx="32"
+    cy="31"
+    r="12"
+    fill="none"
+    stroke="#93C5FD"
+    stroke-width="2"
+    stroke-dasharray="4 3"
+    opacity="0.85"
+  />
+
+  <path
+    d="M32 15V21M32 41V47M16 31H22M42 31H48"
+    stroke="#60A5FA"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
+
+  <circle cx="32" cy="31" r="6" fill="url(#favCore)" />
+  <circle cx="32" cy="31" r="2.5" fill="#FFFFFF" />
+  <circle cx="46" cy="14" r="3.5" fill="#22C55E" />
+</svg>
