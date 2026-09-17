@@ -12,30 +12,51 @@ import { useAppStore } from "../store/AppStore";
 import type { LatLng } from "../types";
 import { normalizeBounds } from "../utils/geofence";
 
-const NUKUS_CENTER: [number, number] = [42.46, 59.61];
+const NUKUS_IT_PARK_CENTER: [number, number] = [42.4651, 59.6104];
 
 function deviceIcon(status: "online" | "offline" | "danger") {
-  const color = status === "danger" ? "#c8342a" : status === "offline" ? "#94a3b8" : "#2358a8";
+  const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#2563eb";
   const html = `
-    <div style="position:relative;width:26px;height:26px;">
+    <div style="position:relative;width:32px;height:32px;">
       ${
         status === "danger"
-          ? `<div style="position:absolute;inset:-6px;border-radius:999px;background:rgba(200,52,42,0.35);animation:pulse-ring 1.6s cubic-bezier(0.2,0.6,0.4,1) infinite;"></div>`
-          : ""
+          ? `<div style="position:absolute;inset:-8px;border-radius:999px;background:rgba(220,38,38,0.35);animation:pulse-ring 1.6s cubic-bezier(0.2,0.6,0.4,1) infinite;"></div>`
+          : `<div style="position:absolute;inset:-4px;border-radius:999px;background:rgba(37,99,235,0.25);animation:pulse-ring 2.5s ease-out infinite;"></div>`
       }
       <div style="
-        width:26px;height:26px;border-radius:999px;
+        width:32px;height:32px;border-radius:999px;
         background:${color};border:3px solid white;
-        box-shadow:0 1px 4px rgba(15,23,42,0.35);
-        display:flex;align-items:center;justify-content:center;">
-        <div style="width:6px;height:6px;border-radius:999px;background:white;"></div>
+        box-shadow:0 4px 10px rgba(15,23,42,0.35);
+        display:flex;align-items:center;justify-content:center;color:white;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
       </div>
     </div>`;
   return L.divIcon({
     html,
     className: "",
-    iconSize: [26, 26],
-    iconAnchor: [13, 13],
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+  });
+}
+
+function itParkIcon() {
+  const html = `
+    <div style="
+      background: #0f172a; border: 2px solid #38bdf8; border-radius: 8px;
+      padding: 3px 8px; color: white; font-size: 11px; font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 4px;
+      white-space: nowrap;">
+      <span style="display:inline-block;width:6px;height:6px;border-radius:999px;background:#38bdf8;"></span>
+      <span>Nukus IT Park</span>
+    </div>`;
+  return L.divIcon({
+    html,
+    className: "",
+    iconSize: [110, 24],
+    iconAnchor: [55, 12],
   });
 }
 
@@ -100,10 +121,10 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
   const showingInstruction = pickingLocation || (drawingZone && !drawStart) || (drawingZone && drawStart);
 
   return (
-    <div className={`relative w-full ${heightClass} overflow-hidden rounded-lg border border-line`}>
+    <div className={`relative w-full ${heightClass} overflow-hidden rounded-xl border border-slate-200/80 shadow-xs`}>
       {showingInstruction && (
         <div className="pointer-events-none absolute inset-x-0 top-3 z-[1000] flex justify-center">
-          <div className="rounded-md bg-ink px-3.5 py-2 text-xs font-medium text-white shadow-lg">
+          <div className="rounded-lg bg-slate-900/90 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md">
             {pickingLocation
               ? t("setDeviceLocationInstruction")
               : t("createZoneInstruction")}
@@ -111,9 +132,21 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
         </div>
       )}
 
+      {/* Location Badge Overlay */}
+      <div className="absolute top-3 left-3 z-[1000] flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white/90 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-sm backdrop-blur-md">
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
+        </span>
+        <span>Joylashuv: Nukus IT Park</span>
+        <span className="font-mono text-[10px] text-slate-400 font-normal">
+          ({device.latitude.toFixed(4)}, {device.longitude.toFixed(4)})
+        </span>
+      </div>
+
       <MapContainer
-        center={NUKUS_CENTER}
-        zoom={13}
+        center={[device.latitude || NUKUS_IT_PARK_CENTER[0], device.longitude || NUKUS_IT_PARK_CENTER[1]]}
+        zoom={16}
         className="h-full w-full"
         ref={mapRef}
       >
@@ -136,14 +169,14 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
               [zone.north, zone.east],
             ]}
             pathOptions={{
-              color: "#c8342a",
+              color: "#dc2626",
               weight: 2,
-              fillColor: "#c8342a",
-              fillOpacity: zone.active ? 0.16 : 0.05,
+              fillColor: "#dc2626",
+              fillOpacity: zone.active ? 0.2 : 0.05,
               dashArray: zone.active ? undefined : "6 4",
             }}
           >
-            <Tooltip direction="top" sticky>
+            <Tooltip direction="top" sticky className="font-sans font-semibold text-xs">
               {zone.name}
             </Tooltip>
           </Rectangle>
@@ -155,13 +188,26 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
               [normalizeBounds(drawStart, drawPreview).south, normalizeBounds(drawStart, drawPreview).west],
               [normalizeBounds(drawStart, drawPreview).north, normalizeBounds(drawStart, drawPreview).east],
             ]}
-            pathOptions={{ color: "#c8342a", weight: 2, dashArray: "4 4", fillOpacity: 0.08 }}
+            pathOptions={{ color: "#dc2626", weight: 2, dashArray: "4 4", fillOpacity: 0.1 }}
           />
         )}
 
+        {/* Nukus IT Park Landmark Marker */}
+        <Marker position={NUKUS_IT_PARK_CENTER} icon={itParkIcon()}>
+          <Tooltip direction="top" offset={[0, -10]}>
+            Nukus IT Park (Nukus sh., Karakalpakstan)
+          </Tooltip>
+        </Marker>
+
+        {/* GPS Device Marker */}
         <Marker position={[device.latitude, device.longitude]} icon={deviceIcon(device.status)}>
-          <Tooltip direction="top" offset={[0, -14]} permanent opacity={0.95}>
-            {device.name}
+          <Tooltip direction="top" offset={[0, -18]} permanent opacity={0.95}>
+            <div className="flex flex-col gap-0.5">
+              <span className="font-bold text-xs">{device.name} — Nukus IT Park</span>
+              <span className="font-mono text-[10px] text-slate-500">
+                {device.latitude.toFixed(4)}, {device.longitude.toFixed(4)}
+              </span>
+            </div>
           </Tooltip>
         </Marker>
       </MapContainer>

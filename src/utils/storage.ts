@@ -29,13 +29,28 @@ function write<T>(key: string, value: T): void {
 export const defaultDevice: Device = {
   id: "GPS-01",
   name: "GPS-01",
-  latitude: 42.46,
-  longitude: 59.61,
-  battery: 87,
-  satellites: 8,
+  locationName: "Nukus IT Park",
+  latitude: 42.4651,
+  longitude: 59.6104,
+  battery: 92,
+  satellites: 10,
   status: "online",
   lastUpdate: new Date().toISOString(),
 };
+
+export const defaultZones: DangerZone[] = [
+  {
+    id: "zone-nukus-itpark-danger",
+    name: "Nukus IT Park Perimeter",
+    north: 42.4665,
+    south: 42.4635,
+    east: 59.6125,
+    west: 59.6085,
+    active: true,
+    createdAt: new Date().toISOString(),
+    deviceInside: false,
+  },
+];
 
 export const defaultBlynkConfig: BlynkConfig = {
   server: "https://blynk.cloud",
@@ -53,10 +68,25 @@ export const defaultSettings: AppSettings = {
 };
 
 export const storage = {
-  getDevice: () => read<Device>(KEYS.device, defaultDevice),
+  getDevice: (): Device => {
+    const d = read<Device>(KEYS.device, defaultDevice);
+    // Ensure Nukus IT Park is set as default location if no custom location assigned
+    if (!d.locationName || (d.latitude === 42.46 && d.longitude === 59.61)) {
+      return {
+        ...d,
+        locationName: "Nukus IT Park",
+        latitude: 42.4651,
+        longitude: 59.6104,
+      };
+    }
+    return d;
+  },
   setDevice: (d: Device) => write(KEYS.device, d),
 
-  getZones: () => read<DangerZone[]>(KEYS.zones, []),
+  getZones: (): DangerZone[] => {
+    const z = read<DangerZone[]>(KEYS.zones, defaultZones);
+    return z.length > 0 ? z : defaultZones;
+  },
   setZones: (z: DangerZone[]) => write(KEYS.zones, z),
 
   getEvents: () => read<AppEvent[]>(KEYS.events, []),

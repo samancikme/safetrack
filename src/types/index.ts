@@ -3,6 +3,7 @@ export type DeviceStatus = "online" | "offline" | "danger";
 export interface Device {
   id: string;
   name: string;
+  locationName?: string;
   latitude: number;
   longitude: number;
   battery: number;
