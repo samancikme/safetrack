@@ -54,7 +54,9 @@ export const defaultZones: DangerZone[] = [
 
 export const defaultBlynkConfig: BlynkConfig = {
   server: "https://blynk.cloud",
-  token: "",
+  token: "rM6RkddaE8V9CY-4Qe1zPv7iCvYnpcr4",
+  templateId: "TMPL4KVCqWp-b",
+  templateName: "safetrack",
   deviceId: "GPS-01",
   triggerPin: "V0",
   resetDelaySeconds: 8,
@@ -70,7 +72,6 @@ export const defaultSettings: AppSettings = {
 export const storage = {
   getDevice: (): Device => {
     const d = read<Device>(KEYS.device, defaultDevice);
-    // Ensure Nukus IT Park is set as default location if no custom location assigned
     if (!d.locationName || (d.latitude === 42.46 && d.longitude === 59.61)) {
       return {
         ...d,
@@ -92,7 +93,21 @@ export const storage = {
   getEvents: () => read<AppEvent[]>(KEYS.events, []),
   setEvents: (e: AppEvent[]) => write(KEYS.events, e),
 
-  getBlynkConfig: () => read<BlynkConfig>(KEYS.blynkConfig, defaultBlynkConfig),
+  getBlynkConfig: (): BlynkConfig => {
+    const c = read<BlynkConfig>(KEYS.blynkConfig, defaultBlynkConfig);
+    // Auto-update if token or template is empty or legacy
+    if (!c.token || !c.templateId) {
+      const updated = {
+        ...c,
+        token: c.token || "rM6RkddaE8V9CY-4Qe1zPv7iCvYnpcr4",
+        templateId: c.templateId || "TMPL4KVCqWp-b",
+        templateName: c.templateName || "safetrack",
+      };
+      write(KEYS.blynkConfig, updated);
+      return updated;
+    }
+    return c;
+  },
   setBlynkConfig: (c: BlynkConfig) => write(KEYS.blynkConfig, c),
 
   getSettings: () => read<AppSettings>(KEYS.settings, defaultSettings),

@@ -40,6 +40,8 @@ export interface AppEvent {
 export interface BlynkConfig {
   server: string;
   token: string;
+  templateId?: string;
+  templateName?: string;
   deviceId: string;
   triggerPin: string;
   resetDelaySeconds: number;
