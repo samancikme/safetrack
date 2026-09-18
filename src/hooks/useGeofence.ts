@@ -1,17 +1,15 @@
 import { useEffect, useRef } from "react";
-import type { DangerZone, LatLng } from "../types";
+import type { SafeZone, LatLng } from "../types";
 import { evaluateGeofence, type GeofenceTransition } from "../utils/geofence";
 
 /**
- * Watches a device position against a set of zones and invokes
- * onTransition exactly once per OUTSIDE->INSIDE or INSIDE->OUTSIDE edge.
- * Also reports the recalculated zone list (with deviceInside flags) via
- * onZonesUpdated so callers can persist it.
+ * Watches device position against Safe Zones.
+ * Invokes onTransitions when device enters or exits safe boundaries.
  */
 export function useGeofence(
   point: LatLng | null,
-  zones: DangerZone[],
-  onTransitions: (transitions: GeofenceTransition[], updatedZones: DangerZone[]) => void
+  zones: SafeZone[],
+  onTransitions: (transitions: GeofenceTransition[], updatedZones: SafeZone[]) => void
 ) {
   const zonesRef = useRef(zones);
   zonesRef.current = zones;
@@ -22,7 +20,6 @@ export function useGeofence(
     if (transitions.length > 0) {
       onTransitions(transitions, updated);
     } else {
-      // still push the normalized inside-state so UI (e.g. table) reflects reality
       const changed = updated.some((z, i) => z.deviceInside !== zonesRef.current[i]?.deviceInside);
       if (changed) onTransitions([], updated);
     }

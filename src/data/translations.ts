@@ -4,8 +4,8 @@ type Dict = Record<string, string>;
 
 export const translations: Record<Language, Dict> = {
   uz: {
-    appName: "SafeTrack",
-    appSubtitle: "GPS xavfsizlik monitoring tizimi",
+    appName: "iZone",
+    appSubtitle: "GPS xavfsiz zona monitoring tizimi",
     blynkConnected: "Blynk ulangan",
     blynkDisconnected: "Blynk uzilgan",
     blynkChecking: "Blynk tekshirilmoqda",
@@ -15,7 +15,7 @@ export const translations: Record<Language, Dict> = {
 
     navDashboard: "Dashboard",
     navMap: "Xarita",
-    navZones: "Xavfli zonalar",
+    navZones: "Xavfsiz zonalar",
     navEvents: "Hodisalar",
     navSettings: "Sozlamalar",
 
@@ -23,14 +23,14 @@ export const translations: Record<Language, Dict> = {
     statActive: "Faol",
     statGps: "GPS",
     statSatellites: "sputnik",
-    statZones: "Xavfli zonalar",
+    statZones: "Xavfsiz zonalar",
     statEventsToday: "Bugungi hodisalar",
 
     deviceCardTitle: "Qurilma",
     deviceStatus: "Holati",
-    deviceStatusActive: "Faol",
+    deviceStatusActive: "Xavfsiz (Zonada)",
     deviceStatusOffline: "Faol emas",
-    deviceStatusDanger: "Xavfda",
+    deviceStatusDanger: "XAVF (Zonadan chiqdi)",
     deviceGpsMode: "GPS",
     deviceGpsDemo: "Demo",
     deviceLatitude: "Latitude",
@@ -46,16 +46,16 @@ export const translations: Record<Language, Dict> = {
     setDeviceLocationInstruction: "Xaritada qurilma joylashuvini tanlang",
     cancelSelection: "Bekor qilish",
 
-    createZoneBtn: "Xavfli zona",
-    createZoneInstruction: "Xaritada to'rtburchak chizing",
-    zoneModalTitle: "Xavfli zona yaratish",
+    createZoneBtn: "Xavfsiz zona",
+    createZoneInstruction: "Xaritada xavfsiz hududni to'rtburchak qilib chizing",
+    zoneModalTitle: "Xavfsiz zona yaratish",
     zoneNameLabel: "Zona nomi:",
-    zoneNameDefault: "Xavfli hudud",
+    zoneNameDefault: "Nukus IT Park Xavfsiz Hududi",
     cancel: "Bekor qilish",
     save: "Saqlash",
 
-    dangerDetectedTitle: "XAVF ANIQLANDI",
-    dangerDetectedBody: "xavfli hududga kirdi.",
+    dangerDetectedTitle: "XAVFSİZ HUDUDDAN CHIQDI!",
+    dangerDetectedBody: "belgilangan xavfsiz hududdan tashqariga chiqdi (XAVF ANIQLANDI).",
     zoneLabel: "Zona:",
     coordinatesLabel: "Koordinatalar:",
     timeLabel: "Vaqt:",
@@ -76,7 +76,7 @@ export const translations: Record<Language, Dict> = {
     eventFilterSms: "SMS",
     noEvents: "Hozircha hodisalar yo'q",
 
-    zonesPageTitle: "Xavfli zonalar",
+    zonesPageTitle: "Xavfsiz zonalar",
     zonesTableName: "Zona",
     zonesTableStatus: "Holat",
     zonesTableCreated: "Yaratilgan vaqt",
@@ -87,9 +87,9 @@ export const translations: Record<Language, Dict> = {
     zonesActionDeactivate: "Faolsizlantirish",
     zonesActive: "Faol",
     zonesInactive: "Nofaol",
-    deviceInZone: "Zonada",
-    deviceOutZone: "Zonadan tashqarida",
-    noZones: "Hozircha xavfli zonalar yaratilmagan",
+    deviceInZone: "Xavfsiz zonada",
+    deviceOutZone: "Xavfsiz zonadan tashqarida (XAVF!)",
+    noZones: "Hozircha xavfsiz zonalar yaratilmagan",
 
     settingsTitle: "Sozlamalar",
     settingsDeviceSection: "Qurilma",
@@ -115,13 +115,13 @@ export const translations: Record<Language, Dict> = {
 
     demoControlTitle: "Demo boshqaruvi",
     demoSetLocation: "Joylashuvni o'rnatish",
-    demoCreateZone: "Xavfli zona yaratish",
-    demoTestDanger: "Xavfni test qilish",
+    demoCreateZone: "Xavfsiz zona yaratish",
+    demoTestDanger: "Zonadan chiqishni test qilish",
     demoTestCall: "Qo'ng'iroq triggerini test qilish",
     demoResetV0: "Blynk V0 reset",
 
     workflowTitle: "Ishlash tartibi",
-    workflowDanger: "Xavf aniqlandi",
+    workflowDanger: "Xavfsiz hududdan chiqdi",
     workflowBlynk: "Blynk V0 = 1",
     workflowEsp32: "ESP32 trigger",
     workflowSim: "SIM800L",
@@ -130,18 +130,18 @@ export const translations: Record<Language, Dict> = {
     blynkV0Label: "Blynk V0",
 
     langUz: "O'zbekcha",
-    langQq: "Qoraqalpoqsha",
+    langQq: "Qaraqalpaqsha",
 
     dashboardTitle: "Dashboard",
     mapPageTitle: "Xarita",
 
     smsPreviewTitle: "SMS matni (namuna)",
-    smsPreviewText: "DIQQAT! {device} qurilmasi xavfli hududga kirdi. Joylashuv: {coords}",
+    smsPreviewText: "DIQQAT! {device} qurilmasi xavfsiz hududdan tashqariga chiqdi. Joylashuv: {coords}",
   },
 
   qq: {
-    appName: "SafeTrack",
-    appSubtitle: "GPS qawipsizlik monitoring sistemasi",
+    appName: "iZone",
+    appSubtitle: "GPS qawipsiz zona monitoring sistemasi",
     blynkConnected: "Blynk qosılǵan",
     blynkDisconnected: "Blynk úzilgen",
     blynkChecking: "Blynk tekseriliwde",
@@ -151,7 +151,7 @@ export const translations: Record<Language, Dict> = {
 
     navDashboard: "Dashboard",
     navMap: "Karta",
-    navZones: "Qawipli zonalar",
+    navZones: "Qawipsiz zonalar",
     navEvents: "Wakiyalar",
     navSettings: "Sazlamalar",
 
@@ -159,14 +159,14 @@ export const translations: Record<Language, Dict> = {
     statActive: "Belsendi",
     statGps: "GPS",
     statSatellites: "sputnik",
-    statZones: "Qawipli zonalar",
+    statZones: "Qawipsiz zonalar",
     statEventsToday: "Búgingi wakiyalar",
 
     deviceCardTitle: "Qurılma",
     deviceStatus: "Jaǵdayı",
-    deviceStatusActive: "Belsendi",
+    deviceStatusActive: "Qawipsiz (Zonada)",
     deviceStatusOffline: "Belsendi emes",
-    deviceStatusDanger: "Qawipte",
+    deviceStatusDanger: "QAWIP (Zonadan shıqtı)",
     deviceGpsMode: "GPS",
     deviceGpsDemo: "Demo",
     deviceLatitude: "Latitude",
@@ -182,16 +182,16 @@ export const translations: Record<Language, Dict> = {
     setDeviceLocationInstruction: "Kartada qurılma ornın tańlań",
     cancelSelection: "Biykar qılıw",
 
-    createZoneBtn: "Qawipli zona",
-    createZoneInstruction: "Kartada tórtmúyeshlik sızıń",
-    zoneModalTitle: "Qawipli zona jaratıw",
+    createZoneBtn: "Qawipsiz zona",
+    createZoneInstruction: "Kartada qawipsiz aymaqtı tórtmúyeshlik qılıp sızıń",
+    zoneModalTitle: "Qawipsiz zona jaratıw",
     zoneNameLabel: "Zona atı:",
-    zoneNameDefault: "Qawipli aymaq",
+    zoneNameDefault: "Nukus IT Park Qawipsiz Aymaǵı",
     cancel: "Biykar qılıw",
     save: "Saqlaw",
 
-    dangerDetectedTitle: "QAWIP ANIQLANDI",
-    dangerDetectedBody: "qawipli aymaqqa kirdi.",
+    dangerDetectedTitle: "QAWIPSIZ AYMAQDAN SHIQTI!",
+    dangerDetectedBody: "belgilengen qawipsiz aymaqtan tısqarıǵa shıqtı (QAWIP ANIQLANDI).",
     zoneLabel: "Zona:",
     coordinatesLabel: "Koordinatalar:",
     timeLabel: "Waqıt:",
@@ -212,7 +212,7 @@ export const translations: Record<Language, Dict> = {
     eventFilterSms: "SMS",
     noEvents: "Házirshe wakiyalar joq",
 
-    zonesPageTitle: "Qawipli zonalar",
+    zonesPageTitle: "Qawipsiz zonalar",
     zonesTableName: "Zona",
     zonesTableStatus: "Jaǵday",
     zonesTableCreated: "Jaratılǵan waqıt",
@@ -223,9 +223,9 @@ export const translations: Record<Language, Dict> = {
     zonesActionDeactivate: "Belsensizlendiriw",
     zonesActive: "Belsendi",
     zonesInactive: "Belsensiz",
-    deviceInZone: "Zonada",
-    deviceOutZone: "Zonadan tısqarıda",
-    noZones: "Házirshe qawipli zonalar jaratılmaǵan",
+    deviceInZone: "Qawipsiz zonada",
+    deviceOutZone: "Qawipsiz zonadan tısqarıda (QAWIP!)",
+    noZones: "Házirshe qawipsiz zonalar jaratılmaǵan",
 
     settingsTitle: "Sazlamalar",
     settingsDeviceSection: "Qurılma",
@@ -251,13 +251,13 @@ export const translations: Record<Language, Dict> = {
 
     demoControlTitle: "Demo basqarıwı",
     demoSetLocation: "Ornın belgilew",
-    demoCreateZone: "Qawipli zona jaratıw",
-    demoTestDanger: "Qawipti test etiw",
+    demoCreateZone: "Qawipsiz zona jaratıw",
+    demoTestDanger: "Zonadan shıǵıwdı test etiw",
     demoTestCall: "Qońıraw triggerin test etiw",
     demoResetV0: "Blynk V0 qayta ornatıw",
 
     workflowTitle: "Jumıs tártibi",
-    workflowDanger: "Qawip anıqlandı",
+    workflowDanger: "Qawipsiz aymaqtan shıqtı",
     workflowBlynk: "Blynk V0 = 1",
     workflowEsp32: "ESP32 trigger",
     workflowSim: "SIM800L",
@@ -272,7 +272,7 @@ export const translations: Record<Language, Dict> = {
     mapPageTitle: "Karta",
 
     smsPreviewTitle: "SMS máti (úlgi)",
-    smsPreviewText: "DIQQAT! {device} qurılması qawipli aymaqqa kirdi. Orın: {coords}",
+    smsPreviewText: "DIQQAT! {device} qurılma qawipsiz aymaqtan tısqarıǵa shıqtı. Orın: {coords}",
   },
 };
 

@@ -12,7 +12,7 @@ export interface Device {
   lastUpdate: string; // ISO timestamp
 }
 
-export interface DangerZone {
+export interface SafeZone {
   id: string;
   name: string;
   north: number;
@@ -21,9 +21,11 @@ export interface DangerZone {
   west: number;
   active: boolean;
   createdAt: string;
-  /** whether the device was inside this zone on the last check (for edge-triggering) */
+  /** whether the device is currently inside this safe zone */
   deviceInside: boolean;
 }
+
+export type DangerZone = SafeZone;
 
 export type EventType = "danger" | "gps" | "blynk" | "call" | "sms" | "system";
 

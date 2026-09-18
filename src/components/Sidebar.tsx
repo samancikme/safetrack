@@ -58,13 +58,13 @@ export function Sidebar({ active, onNavigate }: SidebarProps) {
 
       <div className="mt-auto p-3 space-y-3">
         {/* System Badge */}
-        <div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-slate-50 to-blue-50/40 p-3 text-xs">
+        <div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-slate-50 to-emerald-50/40 p-3 text-xs">
           <div className="flex items-center gap-2 font-bold text-slate-800">
-            <Shield size={14} className="text-blue-600" />
-            <span>SafeTrack Core v2.4</span>
+            <Shield size={14} className="text-emerald-600" />
+            <span>iZone Core v2.4</span>
           </div>
           <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
-            Hardware & Cloud GPS Sentinel Protocol
+            Hardware Safe Zone Sentinel Protocol
           </p>
         </div>
 

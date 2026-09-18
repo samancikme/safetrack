@@ -15,13 +15,13 @@ import { normalizeBounds } from "../utils/geofence";
 const NUKUS_IT_PARK_CENTER: [number, number] = [42.4651, 59.6104];
 
 function deviceIcon(status: "online" | "offline" | "danger") {
-  const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#2563eb";
+  const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#10b981";
   const html = `
     <div style="position:relative;width:32px;height:32px;">
       ${
         status === "danger"
           ? `<div style="position:absolute;inset:-8px;border-radius:999px;background:rgba(220,38,38,0.35);animation:pulse-ring 1.6s cubic-bezier(0.2,0.6,0.4,1) infinite;"></div>`
-          : `<div style="position:absolute;inset:-4px;border-radius:999px;background:rgba(37,99,235,0.25);animation:pulse-ring 2.5s ease-out infinite;"></div>`
+          : `<div style="position:absolute;inset:-4px;border-radius:999px;background:rgba(16,185,129,0.25);animation:pulse-ring 2.5s ease-out infinite;"></div>`
       }
       <div style="
         width:32px;height:32px;border-radius:999px;
@@ -135,8 +135,8 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
       {/* Location Badge Overlay */}
       <div className="absolute top-3 left-3 z-[1000] flex items-center gap-2 rounded-lg border border-slate-200/80 bg-white/90 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-sm backdrop-blur-md">
         <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
         </span>
         <span>Joylashuv: Nukus IT Park</span>
         <span className="font-mono text-[10px] text-slate-400 font-normal">
@@ -169,15 +169,15 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
               [zone.north, zone.east],
             ]}
             pathOptions={{
-              color: "#dc2626",
-              weight: 2,
-              fillColor: "#dc2626",
-              fillOpacity: zone.active ? 0.2 : 0.05,
+              color: "#10b981",
+              weight: 2.5,
+              fillColor: "#10b981",
+              fillOpacity: zone.active ? 0.18 : 0.05,
               dashArray: zone.active ? undefined : "6 4",
             }}
           >
-            <Tooltip direction="top" sticky className="font-sans font-semibold text-xs">
-              {zone.name}
+            <Tooltip direction="top" sticky className="font-sans font-bold text-xs">
+              🛡️ {zone.name} (Xavfsiz Zona)
             </Tooltip>
           </Rectangle>
         ))}
@@ -188,7 +188,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
               [normalizeBounds(drawStart, drawPreview).south, normalizeBounds(drawStart, drawPreview).west],
               [normalizeBounds(drawStart, drawPreview).north, normalizeBounds(drawStart, drawPreview).east],
             ]}
-            pathOptions={{ color: "#dc2626", weight: 2, dashArray: "4 4", fillOpacity: 0.1 }}
+            pathOptions={{ color: "#10b981", weight: 2, dashArray: "4 4", fillOpacity: 0.1 }}
           />
         )}
 

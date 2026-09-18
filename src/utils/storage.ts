@@ -1,4 +1,4 @@
-import type { AppEvent, AppSettings, BlynkConfig, DangerZone, Device, Language } from "../types";
+import type { AppEvent, AppSettings, BlynkConfig, SafeZone, Device, Language } from "../types";
 
 const KEYS = {
   device: "safetrack.device",
@@ -38,17 +38,17 @@ export const defaultDevice: Device = {
   lastUpdate: new Date().toISOString(),
 };
 
-export const defaultZones: DangerZone[] = [
+export const defaultZones: SafeZone[] = [
   {
-    id: "zone-nukus-itpark-danger",
-    name: "Nukus IT Park Perimeter",
+    id: "zone-nukus-itpark-safe",
+    name: "Nukus IT Park Xavfsiz Hududi",
     north: 42.4665,
     south: 42.4635,
     east: 59.6125,
     west: 59.6085,
     active: true,
     createdAt: new Date().toISOString(),
-    deviceInside: false,
+    deviceInside: true,
   },
 ];
 
@@ -84,18 +84,17 @@ export const storage = {
   },
   setDevice: (d: Device) => write(KEYS.device, d),
 
-  getZones: (): DangerZone[] => {
-    const z = read<DangerZone[]>(KEYS.zones, defaultZones);
+  getZones: (): SafeZone[] => {
+    const z = read<SafeZone[]>(KEYS.zones, defaultZones);
     return z.length > 0 ? z : defaultZones;
   },
-  setZones: (z: DangerZone[]) => write(KEYS.zones, z),
+  setZones: (z: SafeZone[]) => write(KEYS.zones, z),
 
   getEvents: () => read<AppEvent[]>(KEYS.events, []),
   setEvents: (e: AppEvent[]) => write(KEYS.events, e),
 
   getBlynkConfig: (): BlynkConfig => {
     const c = read<BlynkConfig>(KEYS.blynkConfig, defaultBlynkConfig);
-    // Auto-update if token or template is empty or legacy
     if (!c.token || !c.templateId) {
       const updated = {
         ...c,

@@ -12,7 +12,7 @@ import type {
   AppSettings,
   BlynkConfig,
   BlynkConnectionState,
-  DangerZone,
+  SafeZone,
   Device,
   EventType,
   Language,
@@ -23,18 +23,19 @@ import { storage } from "../utils/storage";
 import { setVirtualPin, testBlynkConnection } from "../services/blynk";
 import { translate } from "../data/translations";
 import { useGeofence } from "../hooks/useGeofence";
+import type { GeofenceTransition } from "../utils/geofence";
 
 type CallSmsStatus = "idle" | "sending" | "sent" | "failed";
 
 interface ActiveAlert {
-  zone: DangerZone;
+  zone: SafeZone;
   point: LatLng;
   timestamp: string;
 }
 
 interface AppStoreValue {
   device: Device;
-  zones: DangerZone[];
+  zones: SafeZone[];
   events: AppEvent[];
   blynkConfig: BlynkConfig;
   settings: AppSettings;
@@ -82,7 +83,7 @@ function uid(prefix: string): string {
 
 export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [device, setDevice] = useState<Device>(() => storage.getDevice());
-  const [zones, setZones] = useState<DangerZone[]>(() => storage.getZones());
+  const [zones, setZones] = useState<SafeZone[]>(() => storage.getZones());
   const [events, setEvents] = useState<AppEvent[]>(() => storage.getEvents());
   const [blynkConfig, setBlynkConfig] = useState<BlynkConfig>(() => storage.getBlynkConfig());
   const [settings, setSettings] = useState<AppSettings>(() => storage.getSettings());
@@ -104,7 +105,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     [settings.language]
   );
 
-  const persistZones = useCallback((next: DangerZone[]) => {
+  const persistZones = useCallback((next: SafeZone[]) => {
     setZones(next);
     storage.setZones(next);
   }, []);
@@ -181,13 +182,13 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const confirmCreateZone = useCallback(
     (name: string) => {
       if (!pendingZoneBounds) return;
-      const zone: DangerZone = {
+      const zone: SafeZone = {
         id: uid("zone"),
         name: name.trim() || t("zoneNameDefault"),
         ...pendingZoneBounds,
         active: true,
         createdAt: new Date().toISOString(),
-        deviceInside: false,
+        deviceInside: true,
       };
       persistZones([zone, ...zones]);
       pushEvent("system", `${t("createZoneBtn")}: ${zone.name}`);
@@ -236,7 +237,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         setBlynkV0Value(0);
         pushEvent("blynk", `${blynkConfig.triggerPin} = 0`);
       } catch {
-        // reset failure is non-critical for the demo; leave value as-is
+        // reset failure non-critical for demo
       }
     }, Math.max(1, blynkConfig.resetDelaySeconds) * 1000);
   }, [blynkConfig, pushEvent]);
@@ -259,7 +260,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   );
 
   const triggerDangerFlow = useCallback(
-    async (zone: DangerZone, point: LatLng) => {
+    async (zone: SafeZone, point: LatLng) => {
       const now = new Date().toISOString();
       persistDevice({ ...device, status: "danger", lastUpdate: now });
       setActiveAlert({ zone, point, timestamp: now });
@@ -286,24 +287,34 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   const handleGeofenceTransitions = useCallback(
     (
-      transitions: { zone: DangerZone; entered: boolean }[],
-      updatedZones: DangerZone[]
+      transitions: GeofenceTransition[],
+      updatedZones: SafeZone[]
     ) => {
       persistZones(updatedZones);
 
       for (const transition of transitions) {
-        if (transition.entered) {
+        if (transition.exitedSafeZone) {
+          // Device EXITED safe zone -> DANGER ALERT (V0 = 1)!
           void triggerDangerFlow(transition.zone, {
             lat: device.latitude,
             lng: device.longitude,
           });
         } else {
-          pushEvent("gps", `${transition.zone.name}: ${t("deviceOutZone")}`);
+          // Device RETURNED inside safe zone -> SAFE
+          pushEvent("gps", `${transition.zone.name}: ${t("deviceInZone")}`);
+          persistDevice({ ...device, status: "online" });
         }
       }
 
-      const stillInAny = updatedZones.some((z) => z.deviceInside);
-      if (!stillInAny && device.status === "danger") {
+      const isInsideAnySafeZone = updatedZones.some((z) => z.active && z.deviceInside);
+      if (!isInsideAnySafeZone && updatedZones.some((z) => z.active)) {
+        if (device.status !== "danger") {
+          const targetZone = updatedZones.find((z) => z.active) || updatedZones[0];
+          if (targetZone) {
+            void triggerDangerFlow(targetZone, { lat: device.latitude, lng: device.longitude });
+          }
+        }
+      } else if (isInsideAnySafeZone && device.status === "danger") {
         persistDevice({ ...device, status: "online" });
       }
     },
@@ -318,16 +329,9 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   const testDangerButton = useCallback(() => {
     const point = { lat: device.latitude, lng: device.longitude };
-    const containingZone = zones.find(
-      (z) =>
-        z.active &&
-        point.lat >= z.south &&
-        point.lat <= z.north &&
-        point.lng >= z.west &&
-        point.lng <= z.east
-    );
-    if (containingZone) {
-      void triggerDangerFlow(containingZone, point);
+    const targetZone = zones.find((z) => z.active) || zones[0];
+    if (targetZone) {
+      void triggerDangerFlow(targetZone, point);
     } else {
       pushEvent("system", t("deviceOutZone"));
     }
