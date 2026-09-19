@@ -12,7 +12,7 @@ import { useAppStore } from "../store/AppStore";
 import type { LatLng } from "../types";
 import { normalizeBounds } from "../utils/geofence";
 
-const KSU_CENTER: [number, number] = [42.4578, 59.6172];
+const KSU_MAIN_BUILDING: [number, number] = [42.4586, 59.6162];
 
 function deviceIcon(status: "online" | "offline" | "danger") {
   const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#10b981";
@@ -50,13 +50,13 @@ function ksuLandmarkIcon() {
       box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 5px;
       white-space: nowrap;">
       <span style="display:inline-block;width:6px;height:6px;border-radius:999px;background:#38bdf8;"></span>
-      <span>Qoraqalpoq Davlat Universiteti</span>
+      <span>QDU Bosh Korpus (Glavniy Korpus)</span>
     </div>`;
   return L.divIcon({
     html,
     className: "",
-    iconSize: [180, 24],
-    iconAnchor: [90, 12],
+    iconSize: [210, 24],
+    iconAnchor: [105, 12],
   });
 }
 
@@ -119,7 +119,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
   };
 
   const showingInstruction = pickingLocation || (drawingZone && !drawStart) || (drawingZone && drawStart);
-  const currentLocName = device.locationName || "Qoraqalpoq Davlat Universiteti";
+  const currentLocName = device.locationName || "QDU Bosh Korpus (Glavniy Korpus)";
 
   return (
     <div className={`relative w-full ${heightClass} overflow-hidden rounded-xl border border-slate-200/80 shadow-xs`}>
@@ -146,8 +146,8 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
       </div>
 
       <MapContainer
-        center={[device.latitude || KSU_CENTER[0], device.longitude || KSU_CENTER[1]]}
-        zoom={16}
+        center={[device.latitude || KSU_MAIN_BUILDING[0], device.longitude || KSU_MAIN_BUILDING[1]]}
+        zoom={17}
         className="h-full w-full"
         ref={mapRef}
       >
@@ -193,10 +193,10 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
           />
         )}
 
-        {/* Karakalpak State University Landmark Marker */}
-        <Marker position={KSU_CENTER} icon={ksuLandmarkIcon()}>
+        {/* Karakalpak State University Main Building Landmark Marker */}
+        <Marker position={KSU_MAIN_BUILDING} icon={ksuLandmarkIcon()}>
           <Tooltip direction="top" offset={[0, -10]}>
-            Qoraqalpoq Davlat Universiteti (Nukus sh., Karakalpakstan)
+            QDU Bosh Korpus / 1-bino (Berdaq nomidagi QDU)
           </Tooltip>
         </Marker>
 

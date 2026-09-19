@@ -29,10 +29,10 @@ function write<T>(key: string, value: T): void {
 export const defaultDevice: Device = {
   id: "GPS-01",
   name: "GPS-01",
-  locationName: "Qoraqalpoq Davlat Universiteti (Bosh Bino)",
-  latitude: 42.4578,
-  longitude: 59.6173,
-  battery: 94,
+  locationName: "QDU Bosh Korpus (Glavniy Korpus)",
+  latitude: 42.4586,
+  longitude: 59.6162,
+  battery: 95,
   satellites: 12,
   status: "online",
   lastUpdate: new Date().toISOString(),
@@ -72,12 +72,12 @@ export const defaultSettings: AppSettings = {
 export const storage = {
   getDevice: (): Device => {
     const d = read<Device>(KEYS.device, defaultDevice);
-    if (!d.locationName || d.locationName === "Nukus IT Park" || (d.latitude === 42.4651 && d.longitude === 59.6104)) {
+    if (!d.locationName || d.locationName.includes("Nukus IT Park") || d.latitude === 42.4578) {
       const updated = {
         ...d,
-        locationName: "Qoraqalpoq Davlat Universiteti (Bosh Bino)",
-        latitude: 42.4578,
-        longitude: 59.6173,
+        locationName: "QDU Bosh Korpus (Glavniy Korpus)",
+        latitude: 42.4586,
+        longitude: 59.6162,
       };
       write(KEYS.device, updated);
       return updated;
