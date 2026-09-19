@@ -29,9 +29,9 @@ function write<T>(key: string, value: T): void {
 export const defaultDevice: Device = {
   id: "GPS-01",
   name: "GPS-01",
-  locationName: "QDU Bosh Korpus (Glavniy Korpus)",
-  latitude: 42.4586,
-  longitude: 59.6162,
+  locationName: "Belgilangan GPS Manzil (Google Maps)",
+  latitude: 42.452975,
+  longitude: 59.627315,
   battery: 95,
   satellites: 12,
   status: "online",
@@ -41,11 +41,11 @@ export const defaultDevice: Device = {
 export const defaultZones: SafeZone[] = [
   {
     id: "zone-qdu-campus-safe",
-    name: "Qoraqalpoq Davlat Universiteti Kampusi",
+    name: "Qoraqalpoq Davlat Universiteti va Talabalar Hududi",
     north: 42.4598,
-    south: 42.4558,
-    east: 59.6205,
-    west: 59.6142,
+    south: 42.4500,
+    east: 59.6320,
+    west: 59.6140,
     active: true,
     createdAt: new Date().toISOString(),
     deviceInside: true,
@@ -72,12 +72,13 @@ export const defaultSettings: AppSettings = {
 export const storage = {
   getDevice: (): Device => {
     const d = read<Device>(KEYS.device, defaultDevice);
-    if (!d.locationName || d.locationName.includes("Nukus IT Park") || d.latitude === 42.4578) {
+    // Force update device coordinates to exact user Google Maps location (42.452975, 59.627315)
+    if (!d.locationName || d.latitude !== 42.452975 || d.longitude !== 59.627315) {
       const updated = {
         ...d,
-        locationName: "QDU Bosh Korpus (Glavniy Korpus)",
-        latitude: 42.4586,
-        longitude: 59.6162,
+        locationName: "Belgilangan GPS Manzil (Google Maps)",
+        latitude: 42.452975,
+        longitude: 59.627315,
       };
       write(KEYS.device, updated);
       return updated;

@@ -12,7 +12,7 @@ import { useAppStore } from "../store/AppStore";
 import type { LatLng } from "../types";
 import { normalizeBounds } from "../utils/geofence";
 
-const KSU_MAIN_BUILDING: [number, number] = [42.4586, 59.6162];
+const TARGET_GPS_LOCATION: [number, number] = [42.452975, 59.627315];
 
 function deviceIcon(status: "online" | "offline" | "danger") {
   const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#10b981";
@@ -42,7 +42,7 @@ function deviceIcon(status: "online" | "offline" | "danger") {
   });
 }
 
-function ksuLandmarkIcon() {
+function googleMapsLandmarkIcon() {
   const html = `
     <div style="
       background: #0f172a; border: 2px solid #38bdf8; border-radius: 8px;
@@ -50,13 +50,13 @@ function ksuLandmarkIcon() {
       box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 5px;
       white-space: nowrap;">
       <span style="display:inline-block;width:6px;height:6px;border-radius:999px;background:#38bdf8;"></span>
-      <span>QDU Bosh Korpus (Glavniy Korpus)</span>
+      <span>Belgilangan GPS Manzil</span>
     </div>`;
   return L.divIcon({
     html,
     className: "",
-    iconSize: [210, 24],
-    iconAnchor: [105, 12],
+    iconSize: [160, 24],
+    iconAnchor: [80, 12],
   });
 }
 
@@ -119,7 +119,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
   };
 
   const showingInstruction = pickingLocation || (drawingZone && !drawStart) || (drawingZone && drawStart);
-  const currentLocName = device.locationName || "QDU Bosh Korpus (Glavniy Korpus)";
+  const currentLocName = device.locationName || "Belgilangan GPS Manzil (Google Maps)";
 
   return (
     <div className={`relative w-full ${heightClass} overflow-hidden rounded-xl border border-slate-200/80 shadow-xs`}>
@@ -141,12 +141,12 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
         </span>
         <span>Joylashuv: {currentLocName}</span>
         <span className="font-mono text-[10px] text-slate-400 font-normal">
-          ({device.latitude.toFixed(4)}, {device.longitude.toFixed(4)})
+          ({device.latitude.toFixed(5)}, {device.longitude.toFixed(5)})
         </span>
       </div>
 
       <MapContainer
-        center={[device.latitude || KSU_MAIN_BUILDING[0], device.longitude || KSU_MAIN_BUILDING[1]]}
+        center={[device.latitude || TARGET_GPS_LOCATION[0], device.longitude || TARGET_GPS_LOCATION[1]]}
         zoom={17}
         className="h-full w-full"
         ref={mapRef}
@@ -193,10 +193,10 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
           />
         )}
 
-        {/* Karakalpak State University Main Building Landmark Marker */}
-        <Marker position={KSU_MAIN_BUILDING} icon={ksuLandmarkIcon()}>
+        {/* Target Landmark Marker */}
+        <Marker position={TARGET_GPS_LOCATION} icon={googleMapsLandmarkIcon()}>
           <Tooltip direction="top" offset={[0, -10]}>
-            QDU Bosh Korpus / 1-bino (Berdaq nomidagi QDU)
+            Belgilangan Google Maps Manzili (42.452975, 59.627315)
           </Tooltip>
         </Marker>
 
@@ -206,7 +206,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
             <div className="flex flex-col gap-0.5">
               <span className="font-bold text-xs">{device.name} — {currentLocName}</span>
               <span className="font-mono text-[10px] text-slate-500">
-                {device.latitude.toFixed(4)}, {device.longitude.toFixed(4)}
+                {device.latitude.toFixed(5)}, {device.longitude.toFixed(5)}
               </span>
             </div>
           </Tooltip>
