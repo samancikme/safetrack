@@ -29,9 +29,9 @@ function write<T>(key: string, value: T): void {
 export const defaultDevice: Device = {
   id: "GPS-01",
   name: "GPS-01",
-  locationName: "Qoraqalpoq Davlat Universiteti",
+  locationName: "Qoraqalpoq Davlat Universiteti (Bosh Bino)",
   latitude: 42.4578,
-  longitude: 59.6172,
+  longitude: 59.6173,
   battery: 94,
   satellites: 12,
   status: "online",
@@ -40,12 +40,12 @@ export const defaultDevice: Device = {
 
 export const defaultZones: SafeZone[] = [
   {
-    id: "zone-qdu-safe",
-    name: "Qoraqalpoq Davlat Universiteti Xavfsiz Hududi",
-    north: 42.4595,
-    south: 42.4560,
-    east: 59.6195,
-    west: 59.6150,
+    id: "zone-qdu-campus-safe",
+    name: "Qoraqalpoq Davlat Universiteti Kampusi",
+    north: 42.4598,
+    south: 42.4558,
+    east: 59.6205,
+    west: 59.6142,
     active: true,
     createdAt: new Date().toISOString(),
     deviceInside: true,
@@ -72,13 +72,12 @@ export const defaultSettings: AppSettings = {
 export const storage = {
   getDevice: (): Device => {
     const d = read<Device>(KEYS.device, defaultDevice);
-    // Auto-migrate previous location defaults to Qoraqalpoq Davlat Universiteti
     if (!d.locationName || d.locationName === "Nukus IT Park" || (d.latitude === 42.4651 && d.longitude === 59.6104)) {
       const updated = {
         ...d,
-        locationName: "Qoraqalpoq Davlat Universiteti",
+        locationName: "Qoraqalpoq Davlat Universiteti (Bosh Bino)",
         latitude: 42.4578,
-        longitude: 59.6172,
+        longitude: 59.6173,
       };
       write(KEYS.device, updated);
       return updated;
@@ -89,7 +88,7 @@ export const storage = {
 
   getZones: (): SafeZone[] => {
     const z = read<SafeZone[]>(KEYS.zones, defaultZones);
-    if (z.length === 0 || (z.length === 1 && z[0].id === "zone-nukus-itpark-safe")) {
+    if (z.length === 0 || z.some(item => item.id.includes("itpark") || item.id === "zone-qdu-safe")) {
       write(KEYS.zones, defaultZones);
       return defaultZones;
     }
