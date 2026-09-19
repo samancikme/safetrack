@@ -12,7 +12,7 @@ import { useAppStore } from "../store/AppStore";
 import type { LatLng } from "../types";
 import { normalizeBounds } from "../utils/geofence";
 
-const NUKUS_IT_PARK_CENTER: [number, number] = [42.4651, 59.6104];
+const KSU_CENTER: [number, number] = [42.4578, 59.6172];
 
 function deviceIcon(status: "online" | "offline" | "danger") {
   const color = status === "danger" ? "#dc2626" : status === "offline" ? "#64748b" : "#10b981";
@@ -42,21 +42,21 @@ function deviceIcon(status: "online" | "offline" | "danger") {
   });
 }
 
-function itParkIcon() {
+function ksuLandmarkIcon() {
   const html = `
     <div style="
       background: #0f172a; border: 2px solid #38bdf8; border-radius: 8px;
       padding: 3px 8px; color: white; font-size: 11px; font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 5px;
       white-space: nowrap;">
       <span style="display:inline-block;width:6px;height:6px;border-radius:999px;background:#38bdf8;"></span>
-      <span>Nukus IT Park</span>
+      <span>Qoraqalpoq Davlat Universiteti</span>
     </div>`;
   return L.divIcon({
     html,
     className: "",
-    iconSize: [110, 24],
-    iconAnchor: [55, 12],
+    iconSize: [180, 24],
+    iconAnchor: [90, 12],
   });
 }
 
@@ -119,6 +119,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
   };
 
   const showingInstruction = pickingLocation || (drawingZone && !drawStart) || (drawingZone && drawStart);
+  const currentLocName = device.locationName || "Qoraqalpoq Davlat Universiteti";
 
   return (
     <div className={`relative w-full ${heightClass} overflow-hidden rounded-xl border border-slate-200/80 shadow-xs`}>
@@ -138,14 +139,14 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
         </span>
-        <span>Joylashuv: Nukus IT Park</span>
+        <span>Joylashuv: {currentLocName}</span>
         <span className="font-mono text-[10px] text-slate-400 font-normal">
           ({device.latitude.toFixed(4)}, {device.longitude.toFixed(4)})
         </span>
       </div>
 
       <MapContainer
-        center={[device.latitude || NUKUS_IT_PARK_CENTER[0], device.longitude || NUKUS_IT_PARK_CENTER[1]]}
+        center={[device.latitude || KSU_CENTER[0], device.longitude || KSU_CENTER[1]]}
         zoom={16}
         className="h-full w-full"
         ref={mapRef}
@@ -192,10 +193,10 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
           />
         )}
 
-        {/* Nukus IT Park Landmark Marker */}
-        <Marker position={NUKUS_IT_PARK_CENTER} icon={itParkIcon()}>
+        {/* Karakalpak State University Landmark Marker */}
+        <Marker position={KSU_CENTER} icon={ksuLandmarkIcon()}>
           <Tooltip direction="top" offset={[0, -10]}>
-            Nukus IT Park (Nukus sh., Karakalpakstan)
+            Qoraqalpoq Davlat Universiteti (Nukus sh., Karakalpakstan)
           </Tooltip>
         </Marker>
 
@@ -203,7 +204,7 @@ export function MapView({ heightClass = "h-full" }: { heightClass?: string }) {
         <Marker position={[device.latitude, device.longitude]} icon={deviceIcon(device.status)}>
           <Tooltip direction="top" offset={[0, -18]} permanent opacity={0.95}>
             <div className="flex flex-col gap-0.5">
-              <span className="font-bold text-xs">{device.name} — Nukus IT Park</span>
+              <span className="font-bold text-xs">{device.name} — {currentLocName}</span>
               <span className="font-mono text-[10px] text-slate-500">
                 {device.latitude.toFixed(4)}, {device.longitude.toFixed(4)}
               </span>

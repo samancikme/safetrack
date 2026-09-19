@@ -14,6 +14,8 @@ export function DeviceCard() {
     danger: { dot: "bg-rose-500", text: t("deviceStatusDanger"), textColor: "text-rose-700" },
   }[device.status];
 
+  const locName = device.locationName || "Qoraqalpoq Davlat Universiteti";
+
   return (
     <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-xs">
       <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-3">
@@ -21,7 +23,7 @@ export function DeviceCard() {
           <div className="text-base font-bold text-slate-900">{device.name}</div>
           <div className="text-xs font-semibold text-blue-600 flex items-center gap-1 mt-0.5">
             <Building2 size={12} />
-            <span>Nukus IT Park</span>
+            <span className="truncate max-w-[180px]">{locName}</span>
           </div>
         </div>
         <div className="flex items-center gap-1.5 rounded-full bg-slate-50 px-2.5 py-1 text-xs font-bold border border-slate-200/60">
@@ -31,7 +33,7 @@ export function DeviceCard() {
       </div>
 
       <dl className="space-y-2.5 text-xs font-medium">
-        <Row icon={<Building2 size={14} className="text-slate-400" />} label="Joylashuv" value={device.locationName || "Nukus IT Park"} valueColor="text-blue-700 font-bold" />
+        <Row icon={<Building2 size={14} className="text-slate-400" />} label="Joylashuv" value={locName} valueColor="text-blue-700 font-bold" />
         <Row icon={<MapPin size={14} className="text-slate-400" />} label={t("deviceGpsMode")} value={t("deviceGpsDemo")} />
         <Row
           icon={<span className="inline-block w-3.5 text-center text-[10px] font-bold text-slate-400">Y</span>}

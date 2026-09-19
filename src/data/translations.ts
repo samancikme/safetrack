@@ -50,7 +50,7 @@ export const translations: Record<Language, Dict> = {
     createZoneInstruction: "Xaritada xavfsiz hududni to'rtburchak qilib chizing",
     zoneModalTitle: "Xavfsiz zona yaratish",
     zoneNameLabel: "Zona nomi:",
-    zoneNameDefault: "Nukus IT Park Xavfsiz Hududi",
+    zoneNameDefault: "Qoraqalpoq Davlat Universiteti Xavfsiz Hududi",
     cancel: "Bekor qilish",
     save: "Saqlash",
 
@@ -130,7 +130,7 @@ export const translations: Record<Language, Dict> = {
     blynkV0Label: "Blynk V0",
 
     langUz: "O'zbekcha",
-    langQq: "Qaraqalpaqsha",
+    langQq: "Qaraqalpoqsha",
 
     dashboardTitle: "Dashboard",
     mapPageTitle: "Xarita",
@@ -186,7 +186,7 @@ export const translations: Record<Language, Dict> = {
     createZoneInstruction: "Kartada qawipsiz aymaqtı tórtmúyeshlik qılıp sızıń",
     zoneModalTitle: "Qawipsiz zona jaratıw",
     zoneNameLabel: "Zona atı:",
-    zoneNameDefault: "Nukus IT Park Qawipsiz Aymaǵı",
+    zoneNameDefault: "Qaraqalpaq Mámleketlik Universiteti Qawipsiz Aymaǵı",
     cancel: "Biykar qılıw",
     save: "Saqlaw",
 

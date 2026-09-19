@@ -29,23 +29,23 @@ function write<T>(key: string, value: T): void {
 export const defaultDevice: Device = {
   id: "GPS-01",
   name: "GPS-01",
-  locationName: "Nukus IT Park",
-  latitude: 42.4651,
-  longitude: 59.6104,
-  battery: 92,
-  satellites: 10,
+  locationName: "Qoraqalpoq Davlat Universiteti",
+  latitude: 42.4578,
+  longitude: 59.6172,
+  battery: 94,
+  satellites: 12,
   status: "online",
   lastUpdate: new Date().toISOString(),
 };
 
 export const defaultZones: SafeZone[] = [
   {
-    id: "zone-nukus-itpark-safe",
-    name: "Nukus IT Park Xavfsiz Hududi",
-    north: 42.4665,
-    south: 42.4635,
-    east: 59.6125,
-    west: 59.6085,
+    id: "zone-qdu-safe",
+    name: "Qoraqalpoq Davlat Universiteti Xavfsiz Hududi",
+    north: 42.4595,
+    south: 42.4560,
+    east: 59.6195,
+    west: 59.6150,
     active: true,
     createdAt: new Date().toISOString(),
     deviceInside: true,
@@ -72,13 +72,16 @@ export const defaultSettings: AppSettings = {
 export const storage = {
   getDevice: (): Device => {
     const d = read<Device>(KEYS.device, defaultDevice);
-    if (!d.locationName || (d.latitude === 42.46 && d.longitude === 59.61)) {
-      return {
+    // Auto-migrate previous location defaults to Qoraqalpoq Davlat Universiteti
+    if (!d.locationName || d.locationName === "Nukus IT Park" || (d.latitude === 42.4651 && d.longitude === 59.6104)) {
+      const updated = {
         ...d,
-        locationName: "Nukus IT Park",
-        latitude: 42.4651,
-        longitude: 59.6104,
+        locationName: "Qoraqalpoq Davlat Universiteti",
+        latitude: 42.4578,
+        longitude: 59.6172,
       };
+      write(KEYS.device, updated);
+      return updated;
     }
     return d;
   },
@@ -86,7 +89,11 @@ export const storage = {
 
   getZones: (): SafeZone[] => {
     const z = read<SafeZone[]>(KEYS.zones, defaultZones);
-    return z.length > 0 ? z : defaultZones;
+    if (z.length === 0 || (z.length === 1 && z[0].id === "zone-nukus-itpark-safe")) {
+      write(KEYS.zones, defaultZones);
+      return defaultZones;
+    }
+    return z;
   },
   setZones: (z: SafeZone[]) => write(KEYS.zones, z),
 
